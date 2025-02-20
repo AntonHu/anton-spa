@@ -1,5 +1,3 @@
-好的，让我根据项目的实际代码重新生成一个详细的 README.md：
-
 # Anton SPA CLI
 
 一个现代化单页应用脚手架工具，支持自定义技术选型，快速搭建 React/Vue 项目。
@@ -22,7 +20,43 @@
 
 ## 🚀 快速开始
 
+### 打包脚手架
+
+```bash
+# 使用 npm
+npm run build
+
+# 使用 yarn
+yarn build
+
+# 使用 pnpm
+pnpm build
+```
+
+![image](https://github.com/user-attachments/assets/ba818ca0-7744-426c-be9d-ae2aacf1428d)
+
+## 🔨 本地开发
+
+```bash
+# 克隆项目
+git clone https://github.com/your-username/anton-spa.git
+
+# 安装依赖
+pnpm install
+
+# 构建项目
+pnpm build
+
+# 链接到全局
+pnpm link --global
+
+# 测试命令
+anton-spa create test-app
+```
+
 ### 安装
+
+私有化部署npm后全局安装
 
 ```bash
 # 使用 npm
@@ -41,6 +75,8 @@ pnpm add -g anton-spa
 anton-spa create my-app
 ```
 
+![image](https://github.com/user-attachments/assets/cd5268d5-7db5-4b2b-b011-f7cbb12df2fe)
+
 按照提示进行选择：
 
 1. 输入项目名称
@@ -51,6 +87,9 @@ anton-spa create my-app
 6. 选择状态管理工具
    - React 项目: Redux/Mobx/Zustand
    - Vue 项目: Pinia/Vuex
+
+![image](https://github.com/user-attachments/assets/d3daf0e7-d5ad-424d-98ce-152e3f7c0a4d)
+
 
 ### 项目结构
 
@@ -111,25 +150,6 @@ pnpm lint
 - Prettier: 代码格式化
 - EditorConfig: 编辑器配置统一
 - TypeScript: 类型检查
-
-## 🔨 本地开发
-
-```bash
-# 克隆项目
-git clone https://github.com/your-username/anton-spa.git
-
-# 安装依赖
-pnpm install
-
-# 构建项目
-pnpm build
-
-# 链接到全局
-pnpm link --global
-
-# 测试命令
-anton-spa create test-app
-```
 
 ## 📝 TODO
 
