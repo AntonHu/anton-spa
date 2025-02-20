@@ -1,0 +1,23 @@
+<%_ if (config.buildTool === 'Vite') { _%>
+export default {
+  plugins: {
+    <%_ if (config.cssPreprocessor === 'TailwindCSS') { _%>
+    'tailwindcss': {},
+    'autoprefixer': {},
+    <%_ } else { _%>
+    'autoprefixer': {},
+    <%_ } _%>
+  },
+}
+<%_ } else { _%>
+module.exports = {
+  plugins: [
+    <%_ if (config.cssPreprocessor === 'TailwindCSS') { _%>
+    require('tailwindcss'),
+    require('autoprefixer'),
+    <%_ } else { _%>
+    require('autoprefixer'),
+    <%_ } _%>
+  ]
+}
+<%_ } _%> 

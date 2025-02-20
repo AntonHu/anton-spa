@@ -1,0 +1,11 @@
+{
+  "presets": [
+    "@babel/preset-env",
+    "@babel/preset-typescript"
+  ],
+  "plugins": [
+    <%_ if (config.buildTool === 'Webpack') { _%>
+    "@babel/plugin-transform-runtime"
+    <%_ } _%>
+  ]
+} 

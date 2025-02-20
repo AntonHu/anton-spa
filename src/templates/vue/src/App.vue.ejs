@@ -1,0 +1,24 @@
+<template>
+  <router-view />
+</template>
+
+<script setup lang="ts">
+<%_ if (config.stateManagement === 'Pinia') { _%>
+import { useCounterStore } from '@/stores';
+const counter = useCounterStore();
+<%_ } _%>
+</script>
+
+<%_ if (config.cssPreprocessor === 'TailwindCSS') { _%>
+<style>
+@import '@/styles/tailwind.css';
+</style>
+<%_ } else if (config.cssPreprocessor === 'Less') { _%>
+<style lang="less">
+@import '@/styles/variables.less';
+</style>
+<%_ } else if (config.cssPreprocessor === 'Sass') { _%>
+<style lang="scss">
+@import '@/styles/variables.scss';
+</style>
+<%_ } _%> 

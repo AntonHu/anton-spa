@@ -1,0 +1,27 @@
+<%_ if (config.stateManagement === 'Pinia') { _%>
+import { defineStore } from 'pinia';
+
+export const useCounterStore = defineStore('counter', {
+  state: () => ({
+    count: 0
+  }),
+  actions: {
+    increment() {
+      this.count++;
+    }
+  }
+});
+<%_ } else if (config.stateManagement === 'Vuex') { _%>
+import { createStore } from 'vuex';
+
+export const store = createStore({
+  state: {
+    count: 0
+  },
+  mutations: {
+    increment(state) {
+      state.count++;
+    }
+  }
+});
+<%_ } _%> 

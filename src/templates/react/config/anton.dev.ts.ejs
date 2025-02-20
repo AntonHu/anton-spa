@@ -1,0 +1,41 @@
+<%_ if (config.buildTool === 'Vite') { _%>
+import { defineConfig, mergeConfig } from 'vite';
+import baseConfig from './anton.config';
+
+export default defineConfig(mergeConfig(baseConfig, {
+  mode: 'development',
+  server: {
+    port: 3000,
+    open: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true
+      }
+    }
+  }
+}));
+<%_ } else { _%>
+const { merge } = require('webpack-merge');
+const baseConfig = require('./anton.config');
+
+module.exports = merge(baseConfig, {
+  mode: 'development',
+  devtool: 'eval-source-map',
+  devServer: {
+    historyApiFallback: true,
+    hot: true,
+    port: 3000,
+    open: true,
+    proxy: {
+      '/api': {
+        target: 'http://localhost:8080',
+        changeOrigin: true
+      }
+    }
+  },
+  optimization: {
+    minimize: false
+  }
+});
+<%_ } _%> 

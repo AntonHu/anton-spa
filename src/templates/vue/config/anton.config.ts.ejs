@@ -1,0 +1,112 @@
+<%_ if (config.buildTool === 'Vite') { _%>
+import { defineConfig } from 'vite';
+import vue from '@vitejs/plugin-vue';
+import path from 'path';
+
+const config = {
+  plugins: [vue()],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, '../src')
+    }
+  },
+  css: {
+    <%_ if (config.cssPreprocessor === 'Less') { _%>
+    preprocessorOptions: {
+      less: {
+        javascriptEnabled: true,
+      },
+    },
+    <%_ } else if (config.cssPreprocessor === 'Sass') { _%>
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "@/styles/variables.scss";`,
+      },
+    },
+    <%_ } _%>
+    modules: {
+      localsConvention: 'camelCase',
+      generateScopedName: '[local]__[hash:base64:5]'
+    },
+    postcss: '../postcss.config.js'
+  }
+};
+
+export default defineConfig(config);
+<%_ } else { _%>
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const { VueLoaderPlugin } = require('vue-loader');
+
+const config = {
+  entry: './src/main.ts',
+  output: {
+    path: path.resolve(__dirname, '../dist'),
+    filename: '[name].[contenthash].js',
+    clean: true
+  },
+  resolve: {
+    extensions: ['.ts', '.js', '.vue', '.json'],
+    alias: {
+      '@': path.resolve(__dirname, '../src')
+    }
+  },
+  module: {
+    rules: [
+      {
+        test: /\.vue$/,
+        loader: 'vue-loader'
+      },
+      {
+        test: /\.[jt]s$/,
+        exclude: /node_modules/,
+        use: 'babel-loader'
+      },
+      {
+        test: /\.<%_ if (config.cssPreprocessor === 'Less') { _%>less<%_ } else { _%>scss<%_ } _%>$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          'css-loader',
+          <%_ if (config.cssPreprocessor === 'Less') { _%>
+          'less-loader'
+          <%_ } else { _%>
+          'sass-loader'
+          <%_ } _%>
+        ]
+      }
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './index.html'
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css'
+    }),
+    new VueLoaderPlugin()
+  ],
+  css: {
+    <%_ if (config.cssPreprocessor === 'Less') { _%>
+    preprocessorOptions: {
+      less: {
+        javascriptEnabled: true,
+      },
+    },
+    <%_ } else if (config.cssPreprocessor === 'Sass') { _%>
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "@/styles/variables.scss";`,
+      },
+    },
+    <%_ } _%>
+    modules: {
+      localsConvention: 'camelCase',
+      generateScopedName: '[local]__[hash:base64:5]'
+    },
+    postcss: '../postcss.config.js'
+  }
+};
+
+module.exports = config;
+<%_ } _%> 

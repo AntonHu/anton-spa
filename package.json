@@ -1,0 +1,52 @@
+{
+  "name": "anton-spa",
+  "version": "0.0.1",
+  "type": "commonjs",
+  "description": "Anton自搭建的SPA脚手架，支持自定义技术选型，框架React/Vue，状态管理Mobx/Zustand/Redux/Pinia/Vuex，样式方案Tailwind/Less/Sass，打包工具Vite/Webpack",
+  "bin": {
+    "anton-spa": "dist/index.js"
+  },
+  "files": [
+    "dist",
+    "src/templates"
+  ],
+  "scripts": {
+    "dev": "tsc -w",
+    "build": "rimraf dist && rollup -c rollup.config.js",
+    "lint": "eslint src --ext .ts --fix",
+    "prepublishOnly": "npm run build",
+    "prepare": "husky install",
+    "link": "pnpm link --global",
+    "unlink": "pnpm unlink --global"
+  },
+  "publishConfig": {
+    "access": "restricted",
+    "registry": "https://your-private-registry.com/"
+  },
+  "dependencies": {
+    "chalk": "^4.1.2",
+    "commander": "^11.1.0",
+    "ejs": "^3.1.9",
+    "fast-glob": "^3.3.2",
+    "inquirer": "^8.2.6",
+    "ora": "^5.4.1"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-json": "^6.0.1",
+    "@rollup/plugin-node-resolve": "^15.2.3",
+    "@rollup/plugin-typescript": "^11.1.5",
+    "@types/ejs": "^3.1.5",
+    "@types/inquirer": "^8.2.10",
+    "@types/node": "^20.10.0",
+    "@typescript-eslint/eslint-plugin": "^6.12.0",
+    "@typescript-eslint/parser": "^6.12.0",
+    "eslint": "^8.54.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^15.1.0",
+    "rimraf": "^5.0.5",
+    "rollup": "^4.6.0",
+    "rollup-plugin-copy": "^3.5.0",
+    "typescript": "^5.3.2"
+  }
+}

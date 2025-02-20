@@ -1,0 +1,59 @@
+<%_ if (config.buildTool === 'Vite') { _%>
+import { defineConfig, mergeConfig } from 'vite';
+import baseConfig from './anton.config';
+
+export default defineConfig(mergeConfig(baseConfig, {
+  mode: 'production',
+  build: {
+    target: 'es2015',
+    minify: 'terser',
+    cssCodeSplit: true,
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          vendor: ['react', 'react-dom', 'react-router-dom'],
+          <%_ if (config.stateManagement === 'Redux') { _%>
+          redux: ['@reduxjs/toolkit', 'react-redux'],
+          <%_ } else if (config.stateManagement === 'Mobx') { _%>
+          mobx: ['mobx', 'mobx-react-lite'],
+          <%_ } else if (config.stateManagement === 'Zustand') { _%>
+          zustand: ['zustand'],
+          <%_ } _%>
+        }
+      }
+    }
+  }
+}));
+<%_ } else { _%>
+const { merge } = require('webpack-merge');
+const baseConfig = require('./anton.config');
+const TerserPlugin = require('terser-webpack-plugin');
+const CssMinimizerPlugin = require('css-minimizer-webpack-plugin');
+
+module.exports = merge(baseConfig, {
+  mode: 'production',
+  devtool: 'source-map',
+  optimization: {
+    minimize: true,
+    minimizer: [
+      new TerserPlugin(),
+      new CssMinimizerPlugin()
+    ],
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all'
+        }
+      }
+    }
+  },
+  performance: {
+    hints: 'warning',
+    maxEntrypointSize: 512000,
+    maxAssetSize: 512000
+  }
+});
+<%_ } _%> 

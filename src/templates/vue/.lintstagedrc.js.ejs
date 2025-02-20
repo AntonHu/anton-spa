@@ -1,0 +1,9 @@
+module.exports = {
+  '*.{js,ts,vue}': [
+    '<%= config.packageManager %> eslint --fix',
+    '<%= config.packageManager %> prettier --write'
+  ],
+  '*.{css,less,scss,html,md,json}': [
+    '<%= config.packageManager %> prettier --write'
+  ]
+}; 

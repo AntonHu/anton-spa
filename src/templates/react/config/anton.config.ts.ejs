@@ -1,0 +1,103 @@
+<%_ if (config.buildTool === 'Vite') { _%>
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+import path from 'path';
+<%_ if (config.cssPreprocessor === 'TailwindCSS') { _%>
+import tailwindcss from 'tailwindcss';
+<%_ } _%>
+
+const config = {
+  plugins: [
+    react({
+      jsxRuntime: 'automatic',
+      babel: {
+        plugins: ['@babel/plugin-transform-react-jsx']
+      }
+    })
+  ],
+  resolve: {
+    alias: {
+      '@': path.resolve(__dirname, '../src')
+    }
+  },
+  css: {
+    <%_ if (config.cssPreprocessor === 'Less') { _%>
+    preprocessorOptions: {
+      less: {
+        javascriptEnabled: true,
+      },
+    },
+    <%_ } else if (config.cssPreprocessor === 'Sass') { _%>
+    preprocessorOptions: {
+      scss: {
+        additionalData: `@import "@/styles/variables.scss";`,
+      },
+    },
+    <%_ } _%>
+    modules: {
+      localsConvention: 'camelCase',
+      generateScopedName: '[local]__[hash:base64:5]'
+    },
+    postcss: '../postcss.config.js'
+  }
+};
+
+export default defineConfig(config);
+<%_ } else { _%>
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+
+const config = {
+  entry: './src/App.tsx',
+  output: {
+    path: path.resolve(__dirname, '../dist'),
+    filename: '[name].[contenthash].js',
+    clean: true
+  },
+  resolve: {
+    extensions: ['.ts', '.tsx', '.js', '.jsx', '.json'],
+    alias: {
+      '@': path.resolve(__dirname, '../src')
+    }
+  },
+  module: {
+    rules: [
+      {
+        test: /\.[jt]sx?$/,
+        exclude: /node_modules/,
+        use: 'babel-loader'
+      },
+      {
+        test: /\.<%_ if (config.cssPreprocessor === 'Less') { _%>less<%_ } else { _%>scss<%_ } _%>$/,
+        use: [
+          MiniCssExtractPlugin.loader,
+          {
+            loader: 'css-loader',
+            options: {
+              modules: {
+                localIdentName: '[local]__[hash:base64:5]'
+              }
+            }
+          },
+          <%_ if (config.cssPreprocessor === 'Less') { _%>
+          'less-loader'
+          <%_ } else { _%>
+          'sass-loader'
+          <%_ } _%>
+        ]
+      }
+    ]
+  },
+  plugins: [
+    new HtmlWebpackPlugin({
+      template: './index.html'
+    }),
+    new MiniCssExtractPlugin({
+      filename: '[name].[contenthash].css'
+    })
+  ]
+};
+
+module.exports = config;
+<%_ } _%> 

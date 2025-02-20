@@ -1,0 +1,35 @@
+import React from 'react';
+import ReactDOM from 'react-dom/client';
+import { RouterProvider } from 'react-router-dom';
+import router from '@/router';
+<%_ if (config.stateManagement === 'Redux') { _%>
+import { Provider } from 'react-redux';
+import { store } from '@/stores';
+<%_ } _%>
+<%_ if (config.cssPreprocessor === 'TailwindCSS') { _%>
+import '@/styles/tailwind.css';
+<%_ } else if (config.cssPreprocessor === 'Less') { _%>
+import '@/styles/variables.less';
+<%_ } else if (config.cssPreprocessor === 'Sass') { _%>
+import '@/styles/variables.scss';
+<%_ } else { _%>
+import '@/styles/variables.<%= config.cssPreprocessor.toLowerCase() %>';
+<%_ } _%>
+
+function App() {
+  return <RouterProvider router={router} />;
+}
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <%_ if (config.stateManagement === 'Redux') { _%>
+    <Provider store={store}>
+      <App />
+    </Provider>
+    <%_ } else { _%>
+    <App />
+    <%_ } _%>
+  </React.StrictMode>
+);
+
+export default App; 

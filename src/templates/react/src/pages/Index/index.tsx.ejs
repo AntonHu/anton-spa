@@ -1,0 +1,46 @@
+import React from 'react';
+<%_ if (config.stateManagement === 'Redux') { _%>
+import { useSelector, useDispatch } from 'react-redux';
+import { IndexState, increment } from '@/stores';
+<%_ } else if (config.stateManagement === 'Zustand') { _%>
+import { useStore } from '@/stores';
+<%_ } _%>
+<%_ if (config.cssPreprocessor !== 'TailwindCSS') { _%>
+import styles from './index.module.<%= config.cssPreprocessor.toLowerCase() %>';
+<%_ } _%>
+
+function Index() {
+  <%_ if (config.stateManagement === 'Redux') { _%>
+  const count = useSelector((state: IndexState) => state.counter.value);
+  const dispatch = useDispatch();
+  const handleIncrement = () => dispatch(increment());
+  <%_ } else if (config.stateManagement === 'Zustand') { _%>
+  const { count, increment } = useStore();
+  const handleIncrement = increment;
+  <%_ } else { _%>
+  const [count, setCount] = React.useState(0);
+  const handleIncrement = () => setCount(prev => prev + 1);
+  <%_ } _%>
+
+  return (
+    <div className={<%_ if (config.cssPreprocessor === 'TailwindCSS') { _%>"p-8 max-w-4xl mx-auto"<%_ } else { _%>styles.container<%_ } _%>}>
+      <h1 className={<%_ if (config.cssPreprocessor === 'TailwindCSS') { _%>"text-4xl font-bold mb-6 text-center"<%_ } else { _%>styles.title<%_ } _%>}>
+        欢迎使用 <%= projectName %>
+      </h1>
+      
+      <div className={<%_ if (config.cssPreprocessor === 'TailwindCSS') { _%>"mt-8 p-6 bg-gray-50 rounded-lg text-center"<%_ } else { _%>styles.counter<%_ } _%>}>
+        <p className={<%_ if (config.cssPreprocessor === 'TailwindCSS') { _%>"text-xl mb-4"<%_ } else { _%>styles.value<%_ } _%>}>
+          计数器: {count}
+        </p>
+        <button
+          onClick={handleIncrement}
+          className={<%_ if (config.cssPreprocessor === 'TailwindCSS') { _%>"px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors"<%_ } else { _%>styles.button<%_ } _%>}
+        >
+          增加
+        </button>
+      </div>
+    </div>
+  );
+}
+
+export default Index; 

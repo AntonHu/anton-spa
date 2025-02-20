@@ -1,0 +1,51 @@
+<script setup lang="ts">
+<%_ if (config.stateManagement === 'Pinia') { _%>
+import { useCounterStore } from '@/stores';
+const counter = useCounterStore();
+<%_ } else if (config.stateManagement === 'Vuex') { _%>
+import { useStore } from 'vuex';
+const store = useStore();
+<%_ } _%>
+
+<%_ if (config.cssPreprocessor === 'Less') { _%>
+import './index.module.less';
+<%_ } else if (config.cssPreprocessor === 'Sass') { _%>
+import './index.module.scss';
+<%_ } _%>
+</script>
+
+<template>
+  <%_ if (config.cssPreprocessor === 'TailwindCSS') { _%>
+  <div class="p-8 max-w-4xl mx-auto">
+    <h1 class="text-4xl font-bold mb-6 text-center">Welcome to <%= projectName %></h1>
+    <div class="mt-8 p-6 bg-gray-50 rounded-lg text-center">
+      <%_ if (config.stateManagement === 'Pinia') { _%>
+      <p class="text-xl mb-4">Count: {{ counter.count }}</p>
+      <button class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors" @click="counter.increment">Increment</button>
+      <%_ } else if (config.stateManagement === 'Vuex') { _%>
+      <p class="text-xl mb-4">Count: {{ store.state.counter }}</p>
+      <button class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors" @click="store.commit('increment')">Increment</button>
+      <%_ } else { _%>
+      <p class="text-xl mb-4">Count: 0</p>
+      <button class="px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">Increment</button>
+      <%_ } _%>
+    </div>
+  </div>
+  <%_ } else { _%>
+  <div class="container">
+    <h1 class="title">Welcome to <%= projectName %></h1>
+    <div class="counter">
+      <%_ if (config.stateManagement === 'Pinia') { _%>
+      <p class="value">Count: {{ counter.count }}</p>
+      <button class="button" @click="counter.increment">Increment</button>
+      <%_ } else if (config.stateManagement === 'Vuex') { _%>
+      <p class="value">Count: {{ store.state.counter }}</p>
+      <button class="button" @click="store.commit('increment')">Increment</button>
+      <%_ } else { _%>
+      <p class="value">Count: 0</p>
+      <button class="button">Increment</button>
+      <%_ } _%>
+    </div>
+  </div>
+  <%_ } _%>
+</template> 
