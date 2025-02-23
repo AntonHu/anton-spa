@@ -25,6 +25,7 @@ const commitTypes = [
   { name: "⚡️ 性能优化 (perf)", value: "perf" },
   { name: "✅ 测试用例 (test)", value: "test" },
   { name: "🔧 构建工具 (chore)", value: "chore" },
+  { name: "⚡️ 发布版本 (release)", value: "release" },
   { name: "⏪ 回滚提交 (revert)", value: "revert" },
 ];
 

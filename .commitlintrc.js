@@ -14,6 +14,7 @@ export default {
         "test", // 测试用例
         "chore", // 构建/工具
         "revert", // 回滚
+        "release", // 发布
       ],
     ],
     "subject-case": [0], // 不限制subject大小写

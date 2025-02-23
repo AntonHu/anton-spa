@@ -1,6 +1,6 @@
 {
   "name": "@anton/anton-spa",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "type": "module",
   "description": "Anton自搭建的SPA脚手架，支持自定义技术选型，框架React/Vue，状态管理Mobx/Zustand/Redux/Pinia/Vuex，样式方案Tailwind/Less/Sass，打包工具Vite/Webpack",
   "bin": {
