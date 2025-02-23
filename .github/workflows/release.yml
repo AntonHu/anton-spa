@@ -2,7 +2,6 @@ name: Release
 
 on:
   push:
-    branches: [main]
     tags: ["v*.*.*"] # 更严格的标签匹配
 
 jobs:
@@ -45,5 +44,5 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           files: |
-            dist/build-${{ github.ref_name }}.zip
+            dist/build.zip
           draft: false
