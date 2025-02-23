@@ -1,4 +1,7 @@
 #!/usr/bin/env sh
+# 跳过 Changesets 的自动提交
+[ -n "$CHANGESET" ] && exit 0
+
 . "$(dirname -- "$0")/_/husky.sh"
 
 npx lint-staged

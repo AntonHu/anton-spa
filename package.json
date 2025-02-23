@@ -29,8 +29,8 @@
     "prepare": "husky install",
     "link": "pnpm link --global",
     "unlink": "pnpm unlink --global",
-    "version": "changeset version",
-    "release": "changeset publish",
+    "version": "CHANGESET=1 changeset version",
+    "release": "CHANGESET=1 changeset publish",
     "postversion": "git push --follow-tags"
   },
   "dependencies": {
