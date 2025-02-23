@@ -1,6 +1,6 @@
 {
   "name": "@anton/anton-spa",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "type": "module",
   "description": "Anton自搭建的SPA脚手架，支持自定义技术选型，框架React/Vue，状态管理Mobx/Zustand/Redux/Pinia/Vuex，样式方案Tailwind/Less/Sass，打包工具Vite/Webpack",
   "bin": {
@@ -31,7 +31,7 @@
     "unlink": "pnpm unlink --global",
     "version": "changeset version",
     "release": "changeset publish",
-    "changelog": "changeset generate"
+    "postversion": "git push --follow-tags"
   },
   "dependencies": {
     "anton-spa": "link:C:\\Users\\50413\\AppData\\Local\\pnpm\\global\\5\\node_modules\\anton-spa",
