@@ -3,11 +3,16 @@ name: Release
 on:
   push:
     branches: [main]
-    tags: ["v*"] # 监听版本标签
+    tags: ["v*.*.*"] # 更严格的标签匹配
 
 jobs:
   build-and-release:
     runs-on: ubuntu-latest
+    # 新增权限配置
+    permissions:
+      contents: write # 必须授予写入权限
+      packages: read
+      actions: read
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -34,14 +39,14 @@ jobs:
 
       - name: Create Release
         id: create_release
-        uses: actions/create-release@v1
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           tag_name: ${{ github.ref_name }}
-          release_name: Release ${{ github.ref_name }}
+          files: |
+            dist/build.zip
           draft: false
-          prerelease: false
 
       - name: Upload Release Assets
         uses: actions/upload-release-asset@v1
