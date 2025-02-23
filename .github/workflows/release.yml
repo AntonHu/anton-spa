@@ -45,5 +45,5 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           files: |
-            dist/build-*.zip
+            dist/build-${{ github.ref_name }}.zip
           draft: false
