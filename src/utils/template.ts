@@ -1,19 +1,18 @@
-import { mkdir, readFile, writeFile } from "fs/promises";
-import { dirname, join, resolve } from "path";
-import { fileURLToPath } from "url";
+import fsp from "fs/promises";
+import path from "path";
 import ejs from "ejs";
 import glob from "fast-glob";
+import url from "url";
 import { createLogger } from "./logger";
-import { existsSync, readdirSync } from "fs";
 
 const logger = createLogger();
 
 // 获取当前文件的目录
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
+const __filename = url.fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // 获取 dist 目录
-const DIST_ROOT = resolve(__dirname, "..");
+const DIST_ROOT = path.resolve(__dirname, "..");
 
 export interface TemplateData {
   projectName: string;
@@ -24,20 +23,13 @@ export interface TemplateData {
   stateManagement: "Redux" | "Mobx" | "Zustand" | "Pinia" | "Vuex";
 }
 
-export async function generateTemplate(
-  data: TemplateData,
-  targetDir: string
-): Promise<void> {
+export async function generateTemplate(data: TemplateData, targetDir: string): Promise<void> {
   try {
     // 1. 确保目标目录存在
-    await mkdir(targetDir, { recursive: true });
+    await fsp.mkdir(targetDir, { recursive: true });
 
     // 2. 获取模板文件路径
-    const templateDir = resolve(
-      DIST_ROOT,
-      "templates",
-      data.framework.toLowerCase()
-    );
+    const templateDir = path.resolve(DIST_ROOT, "templates", data.framework.toLowerCase());
 
     const templateFiles = await glob("**/*", {
       cwd: templateDir,
@@ -76,11 +68,7 @@ export async function generateTemplate(
         return !file.includes("pinia") && !file.includes("vuex");
       }
       if (data.stateManagement === "Mobx") {
-        return (
-          !file.includes("pinia") &&
-          !file.includes("vuex") &&
-          !file.includes("redux")
-        );
+        return !file.includes("pinia") && !file.includes("vuex") && !file.includes("redux");
       }
       if (data.stateManagement === "Zustand") {
         return (
@@ -91,11 +79,7 @@ export async function generateTemplate(
         );
       }
       if (data.stateManagement === "Pinia") {
-        return (
-          !file.includes("redux") &&
-          !file.includes("mobx") &&
-          !file.includes("zustand")
-        );
+        return !file.includes("redux") && !file.includes("mobx") && !file.includes("zustand");
       }
       if (data.stateManagement === "Vuex") {
         return (
@@ -115,14 +99,14 @@ export async function generateTemplate(
 
     // 3. 处理每个模板文件
     for (const file of filteredFiles) {
-      const sourcePath = join(templateDir, file);
-      const targetPath = join(targetDir, file.replace(/\.ejs$/, ""));
+      const sourcePath = path.join(templateDir, file);
+      const targetPath = path.join(targetDir, file.replace(/\.ejs$/, ""));
 
       // 创建目标文件的目录
-      await mkdir(dirname(targetPath), { recursive: true });
+      await fsp.mkdir(path.dirname(targetPath), { recursive: true });
 
       // 读取模板文件内容
-      const content = await readFile(sourcePath, "utf-8");
+      const content = await fsp.readFile(sourcePath, "utf-8");
 
       try {
         // 渲染模板
@@ -140,11 +124,11 @@ export async function generateTemplate(
             _with: true, // 启用 with 作用域
             context: data, // 设置上下文
             outputFunctionName: "silent", // 禁止输出调试信息
-          }
+          },
         );
 
         // 写入目标文件
-        await writeFile(targetPath, rendered);
+        await fsp.writeFile(targetPath, rendered);
         logger.success(`Created ${file}`);
       } catch (error) {
         // 添加更详细的错误信息

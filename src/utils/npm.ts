@@ -1,8 +1,8 @@
 import { exec } from "child_process";
-import { promisify } from "util";
 import { createLogger } from "./logger";
+import util from "util";
 
-const execAsync = promisify(exec);
+const execAsync = util.promisify(exec);
 const logger = createLogger();
 
 type PackageManager = "npm" | "yarn" | "pnpm";
@@ -15,7 +15,7 @@ const installCommands: Record<PackageManager, string> = {
 
 export async function installDependencies(
   cwd: string,
-  packageManager: PackageManager
+  packageManager: PackageManager,
 ): Promise<void> {
   const command = installCommands[packageManager];
 

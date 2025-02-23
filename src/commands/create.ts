@@ -1,11 +1,11 @@
-import { existsSync } from "fs";
-import { prompt, QuestionCollection, Question } from "inquirer";
+import fs from "fs";
+import path from "path";
+import { prompt, Question } from "inquirer";
 import { questions } from "../config/questions";
 import { createLogger } from "../utils/logger";
 import { generateTemplate, TemplateData } from "../utils/template";
 import { installDependencies } from "../utils/npm";
 import { initGit } from "../utils/git";
-import { join } from "path";
 
 const logger = createLogger();
 
@@ -13,9 +13,7 @@ export async function create(projectName?: string) {
   try {
     // 如果命令行指定了项目名，过滤掉项目名问题
     const filteredQuestions = projectName
-      ? (questions as Question[]).filter(
-          (q: Question) => q.name !== "projectName"
-        )
+      ? (questions as Question[]).filter((q: Question) => q.name !== "projectName")
       : questions;
 
     // 1. 收集用户输入
@@ -24,10 +22,10 @@ export async function create(projectName?: string) {
       answers.projectName = projectName;
     }
 
-    const targetDir = join(process.cwd(), answers.projectName);
+    const targetDir = path.join(process.cwd(), answers.projectName);
 
     // 检查目录是否已存在
-    if (existsSync(targetDir)) {
+    if (fs.existsSync(targetDir)) {
       logger.error(`Directory ${answers.projectName} already exists`);
       process.exit(1);
     }

@@ -1,5 +1,5 @@
 {
-  "name": "anton-spa",
+  "name": "@anton/anton-spa",
   "version": "0.0.1",
   "type": "commonjs",
   "description": "Anton自搭建的SPA脚手架，支持自定义技术选型，框架React/Vue，状态管理Mobx/Zustand/Redux/Pinia/Vuex，样式方案Tailwind/Less/Sass，打包工具Vite/Webpack",
@@ -8,22 +8,45 @@
   },
   "files": [
     "dist",
-    "src/templates"
+    "README.md"
   ],
+  "license": "MIT",
+  "keywords": [
+    "anton",
+    "spa",
+    "cli"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/AntonHu/anton-spa.git"
+  },
+  "author": "AntonHu",
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    },
+    "cz-customizable": {
+      "config": ".cz-config.js"
+    }
+  },
   "scripts": {
+    "commit": "git-cz",
     "dev": "tsc -w",
     "build": "rimraf dist && rollup -c rollup.config.js",
     "lint": "eslint src --ext .ts --fix",
     "prepublishOnly": "npm run build",
     "prepare": "husky install",
     "link": "pnpm link --global",
-    "unlink": "pnpm unlink --global"
+    "unlink": "pnpm unlink --global",
+    "version": "changeset version",
+    "release": "changeset publish"
   },
   "publishConfig": {
     "access": "restricted",
     "registry": "https://your-private-registry.com/"
   },
   "dependencies": {
+    "anton-spa": "link:C:\\Users\\50413\\AppData\\Local\\pnpm\\global\\5\\node_modules\\anton-spa",
     "chalk": "^4.1.2",
     "commander": "^11.1.0",
     "ejs": "^3.1.9",
@@ -32,6 +55,9 @@
     "ora": "^5.4.1"
   },
   "devDependencies": {
+    "@changesets/cli": "^2.28.1",
+    "@commitlint/cli": "^19.7.1",
+    "@commitlint/config-conventional": "^19.7.1",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-json": "^6.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -39,11 +65,16 @@
     "@types/ejs": "^3.1.5",
     "@types/inquirer": "^8.2.10",
     "@types/node": "^20.10.0",
-    "@typescript-eslint/eslint-plugin": "^6.12.0",
-    "@typescript-eslint/parser": "^6.12.0",
-    "eslint": "^8.54.0",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "commitizen": "^4.3.1",
+    "cz-customizable": "^7.4.0",
+    "eslint": "^8.57.1",
+    "eslint-config-prettier": "^10.0.1",
+    "eslint-plugin-prettier": "^5.2.3",
     "husky": "^8.0.3",
-    "lint-staged": "^15.1.0",
+    "lint-staged": "^15.4.3",
+    "prettier": "^3.5.2",
     "rimraf": "^5.0.5",
     "rollup": "^4.6.0",
     "rollup-plugin-copy": "^3.5.0",

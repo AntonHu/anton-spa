@@ -26,13 +26,13 @@
 
 ```bash
 # 使用 npm
-npm install -g anton-spa
+npm install -g @anton/anton-spa
 
 # 使用 yarn
-yarn global add anton-spa
+yarn global add @anton/anton-spa
 
 # 使用 pnpm
-pnpm add -g anton-spa
+pnpm add -g @anton/anton-spa
 ```
 
 ### 创建项目

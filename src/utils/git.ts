@@ -1,8 +1,8 @@
 import { exec } from "child_process";
-import { promisify } from "util";
+import util from "util";
 import { createLogger } from "./logger";
 
-const execAsync = promisify(exec);
+const execAsync = util.promisify(exec);
 const logger = createLogger();
 
 export async function initGit(cwd: string): Promise<void> {
@@ -33,7 +33,7 @@ export async function initGit(cwd: string): Promise<void> {
       logger.success("Initial commit created");
     } catch (commitError) {
       logger.warning(
-        "Failed to create initial commit. This might be because there are no files to commit."
+        "Failed to create initial commit. This might be because there are no files to commit.",
       );
     }
   } catch (error) {
