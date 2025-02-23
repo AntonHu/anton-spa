@@ -31,7 +31,7 @@ export async function initGit(cwd: string): Promise<void> {
     try {
       await execAsync('git commit -m "chore: initial commit"', { cwd });
       logger.success("Initial commit created");
-    } catch (commitError) {
+    } catch {
       logger.warning(
         "Failed to create initial commit. This might be because there are no files to commit.",
       );

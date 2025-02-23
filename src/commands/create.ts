@@ -1,6 +1,6 @@
 import fs from "fs";
 import path from "path";
-import { prompt, Question } from "inquirer";
+import inquirer, { Question } from "inquirer";
 import { questions } from "../config/questions";
 import { createLogger } from "../utils/logger";
 import { generateTemplate, TemplateData } from "../utils/template";
@@ -17,7 +17,7 @@ export async function create(projectName?: string) {
       : questions;
 
     // 1. 收集用户输入
-    const answers = await prompt<TemplateData>(filteredQuestions);
+    const answers = await inquirer.prompt<TemplateData>(filteredQuestions);
     if (projectName) {
       answers.projectName = projectName;
     }

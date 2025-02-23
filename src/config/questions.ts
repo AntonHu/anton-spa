@@ -51,7 +51,6 @@ export const questions: QuestionCollection = [
       }
       return ["Pinia", "Vuex"];
     },
-    default: (answers: Answers) =>
-      answers.framework === "React" ? "Redux" : "Pinia",
+    default: (answers: Answers) => (answers.framework === "React" ? "Redux" : "Pinia"),
   },
 ];
