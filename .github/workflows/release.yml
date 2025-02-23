@@ -37,7 +37,7 @@ jobs:
         env:
           NODE_ENV: production
 
-      - name: Create Release
+      - name: Create Release and Upload Assets
         id: create_release
         uses: softprops/action-gh-release@v1
         env:
@@ -45,15 +45,5 @@ jobs:
         with:
           tag_name: ${{ github.ref_name }}
           files: |
-            dist/build.zip
+            dist/build-*.zip
           draft: false
-
-      - name: Upload Release Assets
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./dist/*.zip # 修改为你的构建产物路径
-          asset_name: build-${{ github.ref_name }}.zip
-          asset_content_type: application/zip
